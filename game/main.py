@@ -24,13 +24,13 @@ class Player(pygame.sprite.Sprite):
         
     def update(self, pk):
         if pk[K_UP]:
-            self.rect.move_ip(0, -2)
+            self.rect.move_ip(0, -10)
         if pk[K_DOWN]:
-            self.rect.move_ip(0, 2)
+            self.rect.move_ip(0, 10)
         if pk[K_LEFT]:
-            self.rect.move_ip(-2, 0)
+            self.rect.move_ip(-10, 0)
         if pk[K_RIGHT]:
-            self.rect.move_ip(2, 0)
+            self.rect.move_ip(10, 0)
             
         if self.rect.left < 0:
             self.rect.left = 0
@@ -56,7 +56,7 @@ class Plastic(pygame.sprite.Sprite):
                 random.randint(1, SH))
                 )
             )
-        self.speed = random.randint(1, 2)
+        self.speed = random.randint(4, 9)
         
     def update(self):
         self.rect.move_ip(-self.speed,0)
@@ -69,7 +69,7 @@ pygame.init()
 screen = pygame.display.set_mode((SW, SH))
 font = pygame.font.Font(None, 36)
 ADDPLASTIC = pygame.USEREVENT + 1
-pygame.time.set_timer(ADDPLASTIC, 255)
+pygame.time.set_timer(ADDPLASTIC, 100)
 
 background = pygame.image.load("assets/Background.png").convert()
 background = pygame.transform.scale(background, (SW, SH))
@@ -85,8 +85,13 @@ all_sprites.add(p)
 plastics.add(p)
 score = 0
 
+#Added to fix frame rate
+clock = pygame.time.Clock()
+
 running = True
 while running:
+    # Added to fix frame rate (lock to 60fps)
+    clock.tick(60)
     for event in pygame.event.get():
         if event.type == KEYDOWN: 
             if event.key == K_ESCAPE:
