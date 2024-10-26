@@ -16,8 +16,11 @@ SH = 600
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pygame.Surface((50, 50))
+        self.surf = pygame.Surface((200, 150))
         self.surf.fill((210, 180, 140))
+        self.image = pygame.image.load("assets/diver.png").convert()
+        self.image.set_colorkey((255, 255, 255), pygame.RLEACCEL)
+        self.image = pygame.transform.scale(self.image, (200, 150))
         self.rect = self.surf.get_rect(
                 center = ((SW/2, SH/2))
             )
@@ -85,8 +88,12 @@ all_sprites.add(p)
 plastics.add(p)
 score = 0
 
+# Control the FPS
+clock = pygame.time.Clock()
+
 running = True
 while running:
+    clock.tick(60)
     for event in pygame.event.get():
         if event.type == KEYDOWN: 
             if event.key == K_ESCAPE:
