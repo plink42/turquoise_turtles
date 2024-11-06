@@ -32,11 +32,11 @@ SH = 940
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pygame.Surface((400, 250))
+        self.surf = pygame.Surface((120, 275))
         self.surf.fill((210, 180, 140))
-        self.image = pygame.image.load("assets/new_player_2.0.png").convert()
+        self.image = pygame.image.load("assets/new_player_2.0-Doof.png").convert()
         self.image.set_colorkey((255, 255, 255), pygame.RLEACCEL)
-        self.image = pygame.transform.scale(self.image, (400, 250))
+        self.image = pygame.transform.scale(self.image, (150, 280))
         self.rect = self.surf.get_rect(
                 center = ((SW/2, SH/2))
             )
@@ -76,7 +76,7 @@ class Plastic(pygame.sprite.Sprite):
         super(Plastic, self).__init__()
         self.surf = pygame.Surface((67, 67))
         self.surf.fill((173, 216, 230))
-        self.image = pygame.image.load("assets/plastic_bottel_new_vr2.0.png").convert()
+        self.image = pygame.image.load("assets/plastic_bottel_new_vr2.0-Doof.png").convert()
         self.image.set_colorkey((255, 255, 255), pygame.RLEACCEL)
         self.image = pygame.transform.scale(self.image, (67, 67))
         self.rect = self.surf.get_rect(
@@ -108,7 +108,7 @@ ADDPLASTIC = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDPLASTIC, 255)
 
 # load the background image
-background = pygame.image.load("assets/Background.png").convert()
+background = pygame.image.load("assets/new_backround_2.0.png").convert()
 background = pygame.transform.scale(background, (SW, SH))
 
 # create the player object and the plastic object
