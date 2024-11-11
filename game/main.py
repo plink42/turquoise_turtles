@@ -105,7 +105,7 @@ font = pygame.font.Font(None, 36)
 ADDPLASTIC = pygame.USEREVENT + 1
 
 # set the timer for the ADDPLASTIC event
-pygame.time.set_timer(ADDPLASTIC, 255)
+pygame.time.set_timer(ADDPLASTIC, 250)
 
 # load the background image
 background = pygame.image.load("assets/new_backround_2.0.png").convert()
