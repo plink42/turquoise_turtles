@@ -14,11 +14,12 @@ from pygame.locals import (
     K_w,
     K_a,
     K_s,
-    K_d)
+    K_d,
+    K_p)
 
 # defind the screen width and height    
-SW = 1800
-SH = 940
+SW = 1920
+SH = 1080
 
 # define the player class
 # the player class is a subclass of the pygame.sprite.Sprite class
@@ -95,8 +96,11 @@ class Plastic(pygame.sprite.Sprite):
 # initialize the pygame module
 pygame.init()
 
+screen_info = pygame.display.Info()
+screen_size = (screen_info.current_w, screen_info.current_h)
+
 # set the screen width and height
-screen = pygame.display.set_mode((SW, SH))
+screen = pygame.display.set_mode((SW, SH), pygame.FULLSCREEN)
 
 # set the font
 font = pygame.font.Font(None, 36)
@@ -132,46 +136,67 @@ clock = pygame.time.Clock()
 
 # run the game loop
 running = True
+
+ACTIVE = 1
+PAUSED = 2
+state = PAUSED
+
+pause_text = pygame.font.SysFont('Consolas', 32).render('Paused', True, pygame.color.Color('White'))
+second_pause = pygame.font.SysFont('Consolas', 26).render('Press P to unpause', True, pygame.color.Color('White'))
+
 while running:
     clock.tick(60)
     # watch for events
-    for event in pygame.event.get():
-        if event.type == KEYDOWN: 
-            if event.key == K_ESCAPE:
-                running = False
-        elif event.type == ADDPLASTIC:
-            new_plastic = Plastic()
-            plastics.add(new_plastic)
-            all_sprites.add(new_plastic)
+    if state == ACTIVE:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN: 
+                if event.key == K_ESCAPE:
+                    running = False
+                if event.key == K_p:
+                    state = PAUSED
+            elif event.type == ADDPLASTIC:
+                new_plastic = Plastic()
+                plastics.add(new_plastic)
+                all_sprites.add(new_plastic)
 
-    # get key presses            
-    pk = pygame.key.get_pressed()
-    player.update(pk)
-    plastics.update()
-    screen.fill((25, 25, 25))
-    screen.blit(background, (0, 0))
-    
-    # draw the sprites
-    for e in all_sprites:
-        try:
-            entity = e.image
-        except:
-            entity = e.surf
-        screen.blit(entity, e.rect)
-    
-    # watch for collisions
-    hits = pygame.sprite.spritecollide(player, plastics, True)
-    
-    # update the score
-    for hit in hits:
-        score+=1
-    
-    # draw the score
-    score_text = font.render("score: "+str(score),True,(255,255,255))       
-    score_rect = score_text.get_rect()
-    score_rect.topleft = (10, 10)
-    
-    screen.blit(score_text, score_rect)
+        # get key presses            
+        pk = pygame.key.get_pressed()
+        player.update(pk)
+        plastics.update()
+        screen.fill((25, 25, 25))
+        screen.blit(background, (0, 0))
+        
+        # draw the sprites
+        for e in all_sprites:
+            try:
+                entity = e.image
+            except:
+                entity = e.surf
+            screen.blit(entity, e.rect)
+        
+        # watch for collisions
+        hits = pygame.sprite.spritecollide(player, plastics, True)
+        
+        # update the score
+        for hit in hits:
+            score+=1
+        
+        # draw the score
+        score_text = font.render("score: "+str(score),True,(255,255,255))       
+        score_rect = score_text.get_rect()
+        score_rect.topleft = (10, 10)
+        
+        screen.blit(score_text, score_rect)
+    elif state == PAUSED:
+        screen.fill((25, 25, 25))
+        screen.blit(pause_text, (SW/2 - 50, SH/2 - 50))
+        screen.blit(second_pause, (SW/2 - 50, SH/2))
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+                if event.key == K_p:
+                    state = ACTIVE
         
     pygame.display.flip()
     
