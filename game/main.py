@@ -17,8 +17,8 @@ from pygame.locals import (
     K_d)
 
 # defind the screen width and height    
-SW = 1800
-SH = 940
+SW = 1920
+SH = 1080
 
 # define the player class
 # the player class is a subclass of the pygame.sprite.Sprite class
@@ -96,7 +96,7 @@ class Plastic(pygame.sprite.Sprite):
 pygame.init()
 
 # set the screen width and height
-screen = pygame.display.set_mode((SW, SH))
+screen = pygame.display.set_mode((SW, SH), pygame.FULLSCREEN)
 
 # set the font
 font = pygame.font.Font(None, 36)
